@@ -3,7 +3,6 @@
     <nuxt-link to="/" class="leading-tight font-bold text-blue-600 text-2xl"
       >draftt</nuxt-link
     >
-
     <div>
       <NuxtLink to="/upload" v-if="$store.state.user" class="text-sm"
         >Upload |
