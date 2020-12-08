@@ -6,5 +6,7 @@ export default function({ store, redirect, route }) {
 function isAccountRoute(route) {
   if (route.matched.some(record => record.path == '/account')) {
     return true
+  } else if (route.matched.some(record => record.path == '/upload')) {
+    return true
   }
 }
