@@ -35,10 +35,12 @@ export default {
   },
   methods: {
     signOut: function (err) {
-      this.$store.dispatch('signOut').catch((err) => {
-        this.$router.push('/account')
-        alert(err.message)
-      })
+      this.$store
+        .dispatch('signOut')
+        .catch((err) => {
+          alert(err.message)
+        })
+        .then(() => this.$router.push('/'))
     },
   },
 }

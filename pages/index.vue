@@ -4,8 +4,8 @@
       <span class="underline">Real</span> design feedback when you need it
     </h1>
     <p class="text-left text-lg pt-8 w-7/12 text-gray-700">
-      A place to share designs that aren't quite finished. Let your peers help
-      you transfer your draft to final.
+      A place to share designs that aren't quite finished. Let peers help you
+      transform your drafts to final.
     </p>
     <p>
       <a
