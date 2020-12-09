@@ -1,8 +1,8 @@
 <template>
   <div>
     <button
-      class="text-white uppercase text-sm p-3 ring-4 rounded-full outline-none focus:outline-none mr-1 mb-1 bg-blue-600 w-8 h-8 flex items-center justify-center"
-      style="transition:all .15s ease font-normal p-3 rounded outline-none focus:outline-none mr-1 mb-1 capitalize w-full"
+      class="text-white uppercase text-sm p-3 ring-4 rounded-full outline-none focus:outline-none bg-blue-600 w-8 h-8 flex items-center justify-center"
+      style="transition:all .15s ease font-normal p-3 rounded outline-none focus:outline-none capitalize w-full"
       type="button"
       v-on:click="toggleDropdown()"
       ref="btnDropdownRef"
