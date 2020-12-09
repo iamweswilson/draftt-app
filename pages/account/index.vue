@@ -37,6 +37,24 @@
         Save Changes
       </button>
     </form>
+    <hr class="my-8" />
+    <section class="mt-8">
+      <h2 class="text-4xl text-blue-900 font-bold">Your Drafts</h2>
+      <ul>
+        <li>
+          <a href="/single">Single draft</a>
+        </li>
+        <li>
+          <a href="/single">Single draft</a>
+        </li>
+        <li>
+          <a href="/single">Single draft</a>
+        </li>
+        <li>
+          <a href="/single">Single draft</a>
+        </li>
+      </ul>
+    </section>
   </div>
 </template>
 
