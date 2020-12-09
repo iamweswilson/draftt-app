@@ -50,6 +50,7 @@
 </template>
 
 <script>
+//https://popper.js.org/docs/v2/
 import { createPopper } from '@popperjs/core'
 import { mapGetters } from 'vuex'
 
