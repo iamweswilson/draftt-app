@@ -1,5 +1,7 @@
 <template>
-  <div class="p-12 w-2/5 container mx-auto shadow-2xl rounded-md bg-white">
+  <div
+    class="p-12 w-full sm:w-4/5 md:w-3/5 mx-auto shadow-2xl rounded-md bg-white"
+  >
     <form @submit.prevent="userSignUp">
       <h2 class="mb-2 text-xl text-gray-800 font-bold">
         Register for an account

@@ -1,9 +1,9 @@
 <template>
   <div class="container mx-auto">
-    <h1 class="text-left font-bold text-blue-900 w-8/12">
+    <h1 class="text-left font-bold text-blue-900 lg:w-8/12">
       <span class="underline">Real</span> design feedback when you need it
     </h1>
-    <p class="text-left text-lg pt-8 w-7/12 text-gray-700">
+    <p class="text-left text-base md:text-lg pt-8 lg:w-7/12 text-gray-700">
       A place to share designs that aren't quite finished. Let peers help you
       transform your drafts to final.
     </p>
@@ -29,7 +29,11 @@ export default {
 
 <style lang="scss">
 h1 {
-  line-height: 5rem;
-  font-size: 5rem;
+  line-height: 3rem;
+  font-size: 3rem;
+  @media (min-width: 768px) {
+    font-size: 5rem;
+    line-height: 5rem;
+  }
 }
 </style>

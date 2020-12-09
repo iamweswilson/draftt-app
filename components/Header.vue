@@ -1,5 +1,5 @@
 <template>
-  <div class="container mx-auto flex justify-between py-5">
+  <header class="flex justify-between py-5">
     <nuxt-link to="/" class="leading-tight font-bold text-blue-600 text-2xl"
       >draftt</nuxt-link
     >
@@ -12,7 +12,7 @@
         >Log In</nuxt-link
       >
     </div>
-  </div>
+  </header>
 </template>
 
 <script>

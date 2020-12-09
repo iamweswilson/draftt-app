@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app" class="container mx-auto px-6">
     <Header />
     <div class="flex-grow mt-6">
       <nuxt />
