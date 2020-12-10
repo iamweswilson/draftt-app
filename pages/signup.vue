@@ -8,16 +8,6 @@
       </h2>
 
       <div class="mb-4">
-        <label class="block mb-2 text-gray-800 text-sm" for="name">Name</label>
-        <input
-          class="border w-full px-2 py-2 rounded-md"
-          type="text"
-          id="name"
-          v-model="name"
-        />
-      </div>
-
-      <div class="mb-4">
         <label class="block mb-2 text-gray-800 text-sm" for="email"
           >Email</label
         >
@@ -66,7 +56,6 @@ export default {
 
   data: function () {
     return {
-      name: '',
       email: '',
       password: '',
     }
@@ -76,15 +65,13 @@ export default {
     userSignUp: function (err) {
       this.$store
         .dispatch('signUp', {
-          name: this.name,
           email: this.email,
           password: this.password,
         })
         .then(() => {
-          this.name = ''
           this.email = ''
           this.password = ''
-          //if you wanted to redirect after sign in you'd do that here with this.$router.push('/pagename')
+          this.$router.push('/account')
         })
         .catch((err) => {
           alert(err.message)
