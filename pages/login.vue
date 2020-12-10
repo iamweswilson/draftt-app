@@ -71,7 +71,7 @@ export default {
         .catch((err) => {
           alert(err.message)
         })
-        .then(() => this.$router.push('/account'))
+        .then(() => this.$router.back())
     },
   },
 }
