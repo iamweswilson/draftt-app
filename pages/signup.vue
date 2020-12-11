@@ -2,10 +2,22 @@
   <div
     class="p-12 w-full sm:w-4/5 md:w-3/5 mx-auto shadow-2xl rounded-md bg-white"
   >
-    <form @submit.prevent="userSignUp">
+    <form @submit.prevent="userRegistration">
       <h2 class="mb-2 text-xl text-gray-800 font-bold">
         Register for an account
       </h2>
+
+      <div class="mb-4">
+        <label class="block mb-2 text-gray-800 text-sm" for="displayName"
+          >Name</label
+        >
+        <input
+          class="border w-full px-2 py-2 rounded-md"
+          type="text"
+          id="displayName"
+          v-model="name"
+        />
+      </div>
 
       <div class="mb-4">
         <label class="block mb-2 text-gray-800 text-sm" for="email"
@@ -47,6 +59,7 @@
 </template>
 
 <script>
+import firebase from 'firebase'
 import Logo from '~/components/Logo.vue'
 
 export default {
@@ -58,20 +71,23 @@ export default {
     return {
       email: '',
       password: '',
+      name: '',
     }
   },
 
   methods: {
-    userSignUp: function (err) {
-      this.$store
-        .dispatch('signUp', {
-          email: this.email,
-          password: this.password,
-        })
-        .then(() => {
-          this.email = ''
-          this.password = ''
-          this.$router.push('/account')
+    userRegistration() {
+      firebase
+        .auth()
+        .createUserWithEmailAndPassword(this.email, this.password)
+        .then((res) => {
+          res.user
+            .updateProfile({
+              displayName: this.name,
+            })
+            .then(() => {
+              this.$router.back()
+            })
         })
         .catch((err) => {
           alert(err.message)
