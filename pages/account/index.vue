@@ -8,7 +8,7 @@
           class="border w-full px-2 py-2 rounded-md"
           type="text"
           id="name"
-          v-model="user.displayName"
+          v-model="name"
         />
       </div>
       <div class="mb-4">
@@ -46,10 +46,16 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import firebase from 'firebase'
+import { mapGetters, mapActions } from 'vuex'
 import UserDrafts from '~/components/user/UserDrafts.vue'
 
 export default {
+  data() {
+    return {
+      name: this.$store.state.user.displayName,
+    }
+  },
   computed: {
     ...mapGetters({
       user: 'user',
@@ -59,9 +65,21 @@ export default {
     UserDrafts,
   },
   methods: {
-    updateUser: function () {
-      this.$store.dispatch('editUser')
-    },
+    ...mapActions([
+      'editUser'
+    ]),
+    updateUser() {
+      var user = firebase.auth().currentUser;
+
+        user.updateProfile({
+        displayName: this.name,
+        // photoURL: "https://example.com/jane-q-user/profile.jpg"
+      }).then(function() {
+        alert('Changes saved')
+      }).catch(function(error) {
+        alert(err.message)
+      });
+      },
   },
 }
 </script>

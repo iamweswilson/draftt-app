@@ -32,18 +32,6 @@ const createStore = () => {
         return auth.signInWithEmailAndPassword(email, password)
       },
 
-      editUser({ commit }) {
-        var user = auth.currentUser
-        user.updateProfile({
-          displayName: '',
-          photoURL: '',
-        }).then(function() {
-          // Update successful.
-        }).catch(function(error) {
-          // An error happened.
-        });
-      },
-
       signOut() {
         return auth.signOut()
       },
