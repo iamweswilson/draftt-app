@@ -7,7 +7,7 @@
       v-on:click="toggleDropdown()"
       ref="btnDropdownRef"
     >
-      {{ $store.state.user.email[0] }}
+      {{ user.email[0] }}
     </button>
     <div
       v-bind:class="{
@@ -35,7 +35,7 @@
           />
         </svg>
         <span class="text-xs w-full inline-block opacity-50">Logged in as</span>
-        <span class="block">{{ $store.state.user.email }}</span>
+        <span class="block">{{ user.email }}</span>
       </a>
       <div
         class="h-0 my-2 border border-solid border-t-0 border-gray-900 opacity-25"
@@ -64,7 +64,7 @@
         href="#"
         class="text-sm py-2 px-4 font-normal block w-full whitespace-no-wrap hover:bg-blue-600 hover:text-white bg-transparent text-gray-800"
         @click="signOut"
-        v-if="$store.state.user"
+        v-if="user"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"

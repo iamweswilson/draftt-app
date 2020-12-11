@@ -8,7 +8,7 @@
           class="border w-full px-2 py-2 rounded-md"
           type="text"
           id="name"
-          v-model="$store.state.user.displayName"
+          v-model="user.displayName"
         />
       </div>
       <div class="mb-4">
@@ -19,7 +19,7 @@
           class="border w-full px-2 py-2 rounded-md"
           type="text"
           id="email"
-          v-model="$store.state.user.email"
+          v-model="user.email"
         />
       </div>
       <div class="mb-4">
