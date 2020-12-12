@@ -84,6 +84,7 @@ export default {
         .auth()
         .createUserWithEmailAndPassword(this.email, this.password)
         .then((res) => {
+          res.user.sendEmailVerification();
           res.user
             .updateProfile({
               displayName: this.name,
