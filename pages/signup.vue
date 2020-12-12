@@ -48,6 +48,7 @@
       >
         Sign Up
       </button>
+      <Error v-if="error" v-bind:error='error'/>
     </form>
     <section class="w-full pt-4 text-sm text-gray-700 text-center">
       Already have an account?
@@ -61,10 +62,12 @@
 <script>
 import firebase from 'firebase'
 import Logo from '~/components/Logo.vue'
+import Error from '~/components/Error.vue'
 
 export default {
   components: {
     Logo,
+    Error
   },
 
   data: function () {
@@ -72,6 +75,7 @@ export default {
       email: '',
       password: '',
       name: '',
+      error: null
     }
   },
 
@@ -90,7 +94,7 @@ export default {
             })
         })
         .catch((err) => {
-          alert(err.message)
+          this.error = err.message
         })
     },
   },

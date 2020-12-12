@@ -36,6 +36,9 @@
       >
         Continue
       </button>
+
+      <Error v-if="error" v-bind:error='error'/>
+
     </form>
     <section class="w-full pt-4 text-sm text-gray-700 text-center">
       Don't have an account?
@@ -47,16 +50,21 @@
 </template>
 
 <script>
+import Error from '~/components/Error.vue'
+
 export default {
   name: 'login',
 
+  components: {
+    Error
+  },
   data: function () {
     return {
       email: '',
       password: '',
+      error: null
     }
   },
-
   methods: {
     userSignIn: function (err) {
       this.$store
@@ -67,11 +75,11 @@ export default {
         .then(() => {
           this.email = ''
           this.password = ''
+          this.$router.back()
         })
         .catch((err) => {
-          alert(err.message)
+          this.error = err.message
         })
-        .then(() => this.$router.back())
     },
   },
 }
