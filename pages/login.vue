@@ -41,9 +41,15 @@
 
     </form>
     <section class="w-full pt-4 text-sm text-gray-700 text-center">
+      Forgot your password?
+      <nuxt-link to="/forgotPassword" class="text-blue-600 hover:text-blue-900"
+        >We got you</nuxt-link
+      >
+    </section>
+    <section class="w-full pt-2 text-sm text-gray-700 text-center">
       Don't have an account?
       <nuxt-link to="/signup" class="text-blue-600 hover:text-blue-900"
-        >Register</nuxt-link
+        >You should register</nuxt-link
       >
     </section>
   </div>

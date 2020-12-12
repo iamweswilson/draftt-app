@@ -53,8 +53,7 @@
     <section class="w-full pt-4 text-sm text-gray-700 text-center">
       Already have an account?
       <nuxt-link to="/login" class="text-blue-600 hover:text-blue-900"
-        >Log in</nuxt-link
-      >
+        >Log in</nuxt-link>
     </section>
   </div>
 </template>
