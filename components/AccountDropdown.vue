@@ -131,7 +131,7 @@ export default {
         .catch((err) => {
           alert(err.message)
         })
-        .then(() => this.$router.push('/'))
+        .then(() => this.$router.push('/login'))
     },
   },
 }
