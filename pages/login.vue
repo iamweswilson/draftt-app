@@ -49,7 +49,7 @@
     <section class="w-full pt-2 text-sm text-gray-700 text-center">
       Don't have an account?
       <nuxt-link to="/signup" class="text-blue-600 hover:text-blue-900"
-        >You should register</nuxt-link
+        >Register</nuxt-link
       >
     </section>
   </div>

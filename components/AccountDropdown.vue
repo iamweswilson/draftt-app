@@ -44,7 +44,7 @@
           />
         </svg>
         <span class="text-xs w-full inline-block opacity-50">Logged in as</span>
-        <span class="block">{{ user.email }}</span>
+        <span class="block">{{ user.displayName }}</span>
       </a>
       <div
         class="h-0 my-2 border border-solid border-t-0 border-gray-900 opacity-25"
