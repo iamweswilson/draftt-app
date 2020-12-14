@@ -1,6 +1,15 @@
 <template>
   <div>
-    <button v-if="user.displayName"
+    <button v-if="user.photoURL"
+      class="text-white uppercase text-sm ring-4 rounded-full outline-none focus:outline-none bg-blue-600 w-8 h-8 flex items-center justify-center"
+      style="transition:all .15s ease font-normal p-3 rounded outline-none focus:outline-none capitalize w-full"
+      type="button"
+      v-on:click="toggleDropdown()"
+      ref="btnDropdownRef"
+    >
+      <img :src="user.photoURL" class="rounded-full">
+    </button>
+    <button v-else-if="user.displayName"
       class="text-white uppercase text-sm p-3 ring-4 rounded-full outline-none focus:outline-none bg-blue-600 w-8 h-8 flex items-center justify-center"
       style="transition:all .15s ease font-normal p-3 rounded outline-none focus:outline-none capitalize w-full"
       type="button"
