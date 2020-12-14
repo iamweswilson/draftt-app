@@ -3,6 +3,19 @@
     <h1 class="text-4xl text-blue-900 font-bold">Account Details</h1>
     <form class="w-full sm:w-4/5 md:w-3/5">
       <div class="mb-4">
+        <div class="responsive">
+          <img :src="photoURL" alt="Avatar" class="w-20 bg-transparent cursor-pointer rounded-full border-2 border-white hover:border-blue-600" @click="$refs.file.click()">
+        </div>
+        <input type="file" @change="previewFiles" class="hidden" ref="file">
+        <input
+          class="hidden"
+          type="text"
+          id="photoURL"
+          v-model="photoURL"
+          @change="onProfilePicChanged"
+        />
+      </div>
+      <div class="mb-4">
         <label class="block mb-2 text-gray-800 text-sm" for="name">Name</label>
         <input
           class="border w-full px-2 py-2 rounded-md"
@@ -22,29 +35,6 @@
           id="email"
           v-model="email"
           @change="onChangeUserEmail"
-        />
-      </div>
-      <div class="mb-4">
-        <label class="block mb-2 text-gray-800 text-sm" for="password"
-          >Password</label
-        >
-        <input
-          class="border w-full px-2 py-2 rounded-md"
-          type="password"
-          id="password"
-        />
-      </div>
-      <div class="mb-4">
-        <img :src="photoURL" alt="Avatar" class="w-40 bg-transparent">
-        <label class="block mb-2 text-gray-800 text-sm" for="photoURL"
-          >Profile Pic</label
-        >
-        <input
-          class="border w-full px-2 py-2 rounded-md"
-          type="text"
-          id="photoURL"
-          v-model="photoURL"
-          @change="onProfilePicChanged"
         />
       </div>
       <button
@@ -88,7 +78,10 @@ export default {
     ...mapActions(['updateUserName', 'updateUserEmail', 'updatePhotoURL']),
     onChangeUserName () {this.updateUserName(this.displayName)},
     onChangeUserEmail () {this.updateUserEmail(this.email)},
-    onProfilePicChanged() {this.updatePhotoURL(this.photoURL)}
+    onProfilePicChanged() {this.updatePhotoURL(this.photoURL)},
+    previewFiles(event) {
+      this.photoURL = event.target.result
+   }
   }
 }
 
