@@ -21,10 +21,6 @@ const store = () => {
 
     plugins: [easyFirestore],
 
-    modules: {
-      myModule
-    },
-
     getters: {
       user(state) {
         return state.user
