@@ -1,10 +1,28 @@
+import Vue from 'vue'
 import Vuex from 'vuex'
-import { auth } from '~/plugins/firebase.js'
+import { firebase, auth } from '~/plugins/firebase.js'
+import VuexEasyFirestore from 'vuex-easy-firestore'
+Vue.use(Vuex)
 
-const createStore = () => {
+import myModule from './modules/myModule.js'
+
+const easyFirestore = VuexEasyFirestore(
+  [myModule], {
+    logging: true,
+    FirebaseDependency: firebase,
+  }
+)
+
+const store = () => {
   return new Vuex.Store({
     state: {
       user: '',
+    },
+
+    plugins: [easyFirestore],
+
+    modules: {
+      myModule
     },
 
     getters: {
@@ -53,4 +71,4 @@ const createStore = () => {
   })
 }
 
-export default createStore
+export default store

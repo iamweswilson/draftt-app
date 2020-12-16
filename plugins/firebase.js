@@ -31,14 +31,10 @@ function initFirebase () {
 }
 
 initFirebase()
-  .then(_ => {
-    const easyFirestore = VuexEasyFirestore(myModule, { logging: true, FirebaseDependency: Firebase })
-    // init Vuex store
-  })
   .catch(error => {
     // take user to a page stating an error occurred
     // (might be a connection error, or the app is open in another tab)
   })
 
-export { firebase, initFirebase }
+export { firebase }
 export const auth = firebase.auth()

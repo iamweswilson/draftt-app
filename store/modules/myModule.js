@@ -1,5 +1,5 @@
-const myModule = {
-  firestorePath: 'myDocs',
+export default {
+  firestorePath: 'tests',
   firestoreRefType: 'collection', // or 'doc'
   moduleName: 'myModule',
   statePropName: 'data',
@@ -12,5 +12,3 @@ const myModule = {
   mutations: {},
   actions: {},
 }
-
-export default myModule
