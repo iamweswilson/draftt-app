@@ -4,17 +4,32 @@
     <form class="w-full sm:w-4/5 md:w-3/5">
       <div class="mb-4">
         <div class="responsive">
-          <img :src="photoURL" alt="Avatar" class="w-20 bg-transparent cursor-pointer rounded-full border-2 border-white hover:border-blue-600" @click="$refs.file.click()">
+          <img v-if="user.photoURL" 
+            :src="user.photoURL" 
+            alt="Avatar" 
+            class="w-20 h-20 bg-transparent cursor-pointer rounded-full border-2 object-cover border-white hover:border-blue-600"
+            id="img"
+            @click="$refs.file.click()"
+            >
+          <div v-else-if="user.displayName"
+            class="text-white uppercase text-lg p-3 ring-4 rounded-full outline-none focus:outline-none bg-blue-600 w-20 h-20 flex items-center cursor-pointer justify-center border-white hover:border-blue-600"
+            @click="$refs.file.click()"
+          >
+            {{ user.displayName[0] }}
+          </div>
+          <div v-else-if="user.displayName"
+            class="text-white uppercase text-lg p-3 ring-4 rounded-full outline-none focus:outline-none bg-blue-600 w-20 h-20 flex items-center cursor-pointer justify-center border-white hover:border-blue-600"
+            @click="$refs.file.click()"
+          >
+            {{ user.email[0] }}
+          </div>
         </div>
-        <input type="file" @change="previewFiles" class="hidden" ref="file">
-        <input
-          class="hidden"
-          type="text"
-          id="photoURL"
-          v-model="photoURL"
-          @change="onProfilePicChanged"
-        />
+        <input type="file" @change="chooseFile" class="hidden" ref="file">
       </div>
+      <!-- Avatar preview. TODO: style -->
+      <img id="preview"
+        class="w-20 bg-transparent rounded-full"
+      >
       <div class="mb-4">
         <label class="block mb-2 text-gray-800 text-sm" for="name">Name</label>
         <input
@@ -22,7 +37,6 @@
           type="text"
           id="name"
           v-model="displayName"
-          @change="onChangeUserName"
         />
       </div>
       <div class="mb-4">
@@ -34,14 +48,16 @@
           type="text"
           id="email"
           v-model="email"
-          @change="onChangeUserEmail"
         />
       </div>
       <button
         class="inline-block text-md text-white bg-blue-600 hover:bg-blue-800 mt-6 px-5 py-2 rounded-full"
+        @click="saveProfile"
       >
         Save Changes
       </button>
+      <br>
+      <button @click="seeUser">See user info in console (dev)</button>
     </form>
     <hr class="my-8" />
     <section class="mt-8">
@@ -60,7 +76,9 @@ export default {
     return {
       displayName: '',
       email: '',
-      photoURL: ''
+      photoURL: '',
+      imgURL: '',
+      file: ''
     }
   },
   computed: {
@@ -72,50 +90,73 @@ export default {
   created() {
     this.displayName = this.user.displayName
     this.email = this.user.email
-    this.photoURL = this.user.photoURL ? this.user.photoURL : this.photoURL
+    this.photoURL = this.picURL
   },
   methods: {
     ...mapActions(['updateUserName', 'updateUserEmail', 'updatePhotoURL']),
-    onChangeUserName () {this.updateUserName(this.displayName)},
-    onChangeUserEmail () {this.updateUserEmail(this.email)},
-    onProfilePicChanged() {this.updatePhotoURL(this.photoURL)},
-    previewFiles(event) {
-      this.photoURL = event.target.result
-   }
-  }
-}
+    saveProfile() {
+      this.updateUserName(this.displayName)
+      this.updateUserEmail(this.email)
+    },
+    chooseFile() {
+      var user = firebase.auth().currentUser;
+      window.file = event.target.files[0];
 
-// export default {
-//   data() {
-//     return {
-//       name: this.$store.state.user.displayName,
-//     }
-//   },
-//   computed: {
-//     ...mapGetters({
-//       user: 'user',
-//     }),
-//   },
-//   components: {
-//     UserDrafts,
-//   },
-//   methods: {
-//     ...mapActions([
-//       'editUser'
-//     ]),
-//     updateUser() {
-//       var user = firebase.auth().currentUser;
-//       user.updateProfile({
-//         displayName: this.name,
-//         // photoURL: "https://example.com/jane-q-user/profile.jpg"
-//       }).then(function() {
-//         alert('Changes saved')
-//       }).catch(function(error) {
-//         alert(err.message)
-//       });
-//       },
-//   },
-// }
+        // Show preview thumbnail
+        var reader = new FileReader()
+        reader.readAsDataURL(file)
+        reader.onload = function(e) {
+          document.getElementById('preview').src = e.target.result
+        }
+
+      // Upload to firebase
+      var storePic = firebase.storage().ref('users/' + user.uid + '/profilePic/' + 'avatar.jpg' ).put(file).then(function () {
+        console.log('upload worked')
+
+        // Get firebase url
+        firebase.storage().ref('users/' + user.uid + '/profilePic/' + 'avatar.jpg').getDownloadURL().then(imgURL => {
+          // Update profile pic
+          user.updateProfile({
+            photoURL: imgURL
+          })
+        })
+      }).catch(error => {
+        console.log(error.message);
+      })
+    },
+    // newPic() {
+    //   var user = firebase.auth().currentUser;
+    //   this.file = event.target.files[0]
+    //   var storePic = firebase.storage().ref('users/' + user.uid + '/profilePic/' + this.file.name);
+    //   var upload = storePic.put(this.file)
+    //   .then( response => {
+    //     response.ref.getDownloadURL().then((downloadURL) => {
+    //       firebase.database().ref('users').child(user.uid).update({photoURL:downloadURL})
+    //       console.log(photoURL)
+    //     })
+    //   })
+    // },
+    // uploadFiles(event) {
+    //   var user = firebase.auth().currentUser;
+    //   this.file = event.target.files[0]
+    //   var storageRef = firebase.storage().ref('users/' + user.uid + '/profilePicture/' + this.file.name);
+    //   var upload = storageRef.put(this.file)
+    // },
+    seeUser () {
+      var user = firebase.auth().currentUser;
+
+      if (user != null) {
+        user.providerData.forEach(function (profile) {
+          console.log("Sign-in provider: " + profile.providerId);
+          console.log("  Provider-specific UID: " + profile.uid);
+          console.log("  Name: " + profile.displayName);
+          console.log("  Email: " + profile.email);
+          console.log("  Photo URL: " + profile.photoURL);
+        });
+      }
+    }
+  },
+}
 </script>
 
 <style lang="scss" scoped>
