@@ -1,25 +1,35 @@
 <template>
   <div class="w-full">
     <h1 class="text-4xl text-blue-900 font-bold">Account Details</h1>
-    <form class="w-full sm:w-4/5 md:w-3/5" @submit.prevent="saveProfile">
+    <form class="w-full sm:w-4/5 md:w-3/5" @submit="saveProfile">
       <div class="mb-4">
-        <div class="">
-          <img v-if="user.photoURL" 
-            :src="user.photoURL" 
-            alt="Avatar" 
-            class="w-20 h-20 bg-transparent cursor-pointer rounded-full border-2 object-cover border-white hover:border-blue-600"
-            id="preview"
+        <div
+            class="w-24 h-24 cursor-pointer rounded-full relative avatar"
             @click="$refs.file.click()"
+        >
+          <span
+            class="absolute w-8 h-8 rounded-full bg-blue-600 border-2 object-center p-1 border-white edit-icon"
+          >
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="white"
+          >
+            <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
+          </svg>
+          </span>
+          <img v-if="user.photoURL"
+            :src="user.photoURL"
+            alt="Avatar"
+            class="h-full w-full rounded-full object-cover"
+            id="preview"
             >
           <div v-else-if="user.displayName"
-            class="text-white uppercase text-lg p-3 ring-4 rounded-full outline-none focus:outline-none bg-blue-600 w-20 h-20 flex items-center cursor-pointer justify-center border-white hover:border-blue-600"
-            @click="$refs.file.click()"
+            class="text-white uppercase text-4xl p-3 rounded-full bg-blue-600 w-full h-full flex items-center justify-center"
+            id="preview"
           >
             {{ user.displayName[0] }}
           </div>
-          <div v-else-if="user.displayName"
-            class="text-white uppercase text-lg p-3 ring-4 rounded-full outline-none focus:outline-none bg-blue-600 w-20 h-20 flex items-center cursor-pointer justify-center border-white hover:border-blue-600"
-            @click="$refs.file.click()"
+          <div v-else
+            class="text-white uppercase text-4xl p-3 rounded-full bg-blue-600 w-full h-full flex items-center justify-center"
+            id="preview"
           >
             {{ user.email[0] }}
           </div>
@@ -89,11 +99,6 @@ export default {
   },
   methods: {
     ...mapActions(['updateUserName', 'updateUserEmail']),
-    saveProfile() {
-      this.updateUserName(this.displayName)
-      this.updateUserEmail(this.email)
-      this.uploadFile()
-    },
     chooseFile() {
       window.file = event.target.files[0];
       // Show preview thumbnail
@@ -122,6 +127,16 @@ export default {
         console.log(error.message);
       })
     },
+    saveProfile() {
+      this.updateUserName(this.displayName)
+      this.updateUserEmail(this.email)
+      if ( this.file == '' ) {
+        console.log('no file')
+      } else {
+        this.uploadFile()
+        console.log('we has file')
+      }
+    },
     seeUser () {
       var user = firebase.auth().currentUser;
 
@@ -142,5 +157,16 @@ export default {
 <style lang="scss" scoped>
 .draft {
   height: 24rem;
+}
+.avatar {
+  .edit-icon {
+    bottom: -2px;
+    right: -2px;
+  }
+  &:hover {
+    .edit-icon {
+      border-color: #2c5282;
+    }
+  }
 }
 </style>
