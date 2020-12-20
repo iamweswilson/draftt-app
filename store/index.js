@@ -52,13 +52,13 @@ const store = () => {
       updateUserName({state, commit}, displayName) {
         state.user.updateProfile({displayName})
       },
-      updatePhotoURL({state}, photoURL) {
-        state.user.updateProfile({photoURL})
-      },
+      // updatePhotoURL({state}, photoURL) {
+      //   state.user.updateProfile({photoURL})
+      // },
       updateUserEmail({state}, email) {
         state.user.updateEmail(email).then(() => {
         // Update successful.
-          alert('Email changed');
+          // alert('Email changed');
         }, error => {
           alert(error)
         })

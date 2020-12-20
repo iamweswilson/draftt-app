@@ -1,14 +1,14 @@
 <template>
   <div class="w-full">
     <h1 class="text-4xl text-blue-900 font-bold">Account Details</h1>
-    <form class="w-full sm:w-4/5 md:w-3/5">
+    <form class="w-full sm:w-4/5 md:w-3/5" @submit.prevent="saveProfile">
       <div class="mb-4">
-        <div class="responsive">
+        <div class="">
           <img v-if="user.photoURL" 
             :src="user.photoURL" 
             alt="Avatar" 
             class="w-20 h-20 bg-transparent cursor-pointer rounded-full border-2 object-cover border-white hover:border-blue-600"
-            id="img"
+            id="preview"
             @click="$refs.file.click()"
             >
           <div v-else-if="user.displayName"
@@ -23,13 +23,10 @@
           >
             {{ user.email[0] }}
           </div>
+
         </div>
         <input type="file" @change="chooseFile" class="hidden" ref="file">
       </div>
-      <!-- Avatar preview. TODO: style -->
-      <img id="preview"
-        class="w-20 bg-transparent rounded-full"
-      >
       <div class="mb-4">
         <label class="block mb-2 text-gray-800 text-sm" for="name">Name</label>
         <input
@@ -52,7 +49,6 @@
       </div>
       <button
         class="inline-block text-md text-white bg-blue-600 hover:bg-blue-800 mt-6 px-5 py-2 rounded-full"
-        @click="saveProfile"
       >
         Save Changes
       </button>
@@ -90,31 +86,33 @@ export default {
   created() {
     this.displayName = this.user.displayName
     this.email = this.user.email
-    this.photoURL = this.picURL
   },
   methods: {
-    ...mapActions(['updateUserName', 'updateUserEmail', 'updatePhotoURL']),
+    ...mapActions(['updateUserName', 'updateUserEmail']),
     saveProfile() {
       this.updateUserName(this.displayName)
       this.updateUserEmail(this.email)
+      this.uploadFile()
     },
     chooseFile() {
-      var user = firebase.auth().currentUser;
       window.file = event.target.files[0];
-
-        // Show preview thumbnail
-        var reader = new FileReader()
-        reader.readAsDataURL(file)
-        reader.onload = function(e) {
-          document.getElementById('preview').src = e.target.result
-        }
-
+      // Show preview thumbnail
+      var reader = new FileReader()
+      reader.readAsDataURL(file)
+      reader.onload = function(e) {
+        document.getElementById('preview').src = e.target.result
+      }
+    },
+    uploadFile() {
+      var user = firebase.auth().currentUser;
+      console.log(file)
       // Upload to firebase
-      var storePic = firebase.storage().ref('users/' + user.uid + '/profilePic/' + 'avatar.jpg' ).put(file).then(function () {
+      firebase.storage().ref('users/' + user.uid + '/profilePic/' + 'avatar.jpg' ).put(file).then(res => {
         console.log('upload worked')
 
         // Get firebase url
-        firebase.storage().ref('users/' + user.uid + '/profilePic/' + 'avatar.jpg').getDownloadURL().then(imgURL => {
+        var storageRef = firebase.storage().ref('users/' + user.uid + '/profilePic/' + 'avatar.jpg').getDownloadURL().then(imgURL => {
+          console.log('have download url')
           // Update profile pic
           user.updateProfile({
             photoURL: imgURL
@@ -124,24 +122,6 @@ export default {
         console.log(error.message);
       })
     },
-    // newPic() {
-    //   var user = firebase.auth().currentUser;
-    //   this.file = event.target.files[0]
-    //   var storePic = firebase.storage().ref('users/' + user.uid + '/profilePic/' + this.file.name);
-    //   var upload = storePic.put(this.file)
-    //   .then( response => {
-    //     response.ref.getDownloadURL().then((downloadURL) => {
-    //       firebase.database().ref('users').child(user.uid).update({photoURL:downloadURL})
-    //       console.log(photoURL)
-    //     })
-    //   })
-    // },
-    // uploadFiles(event) {
-    //   var user = firebase.auth().currentUser;
-    //   this.file = event.target.files[0]
-    //   var storageRef = firebase.storage().ref('users/' + user.uid + '/profilePicture/' + this.file.name);
-    //   var upload = storageRef.put(this.file)
-    // },
     seeUser () {
       var user = firebase.auth().currentUser;
 
