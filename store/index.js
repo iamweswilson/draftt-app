@@ -3,7 +3,7 @@ import Vuex from 'vuex'
 import * as firebase from 'firebase/app'
 import 'firebase/auth'
 import { auth } from '~/plugins/firebase.js'
-import 'firebase/firestore'
+import 'firebase/storage'
 import VuexEasyFirestore from 'vuex-easy-firestore'
 Vue.use(Vuex)
 
