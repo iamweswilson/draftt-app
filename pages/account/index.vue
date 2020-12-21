@@ -116,20 +116,23 @@ export default {
   },
   methods: {
     ...mapActions(['updateUserName', 'updateUserEmail']),
-    chooseFile() {
-      window.file = event.target.files[0]
-      // Show preview thumbnail
+    chooseFile(event) {
       var reader = new FileReader()
-      reader.readAsDataURL(file)
       reader.onload = function(e) {
-        document.getElementById('preview').src = e.target.result
+        let output = document.getElementById('preview');
+        output.src = reader.result;
       }
-      previewFile = file
-      console.log(previewFile)
+      // Show preview thumbnail
+      if(event.target.files[0]) {
+        window.file = event.target.files[0]
+        reader.readAsDataURL(file)
+        previewFile = file
+        console.log('in chooseFile' + previewFile)
+      }
     },
     uploadFile() {
         if (previewFile !== '') {
-        console.log(file.name)
+          console.log('in uploadFile' + previewFile)
           var user = firebase.auth().currentUser;
           // Upload to firebase
           firebase.storage().ref('users/' + user.uid + '/profilePic/' + 'avatar.jpg' ).put(file).then(res => {
