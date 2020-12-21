@@ -20,7 +20,7 @@
           </span>
           <!-- Hidden img for preview -->
           <img
-            class="h-full w-full rounded-full object-cover absolute z-0"
+            class="h-full rounded-full object-cover absolute z-0"
             id="preview"
           >
             <!-- Show if user has profile img -->
