@@ -75,7 +75,8 @@
         Save Changes
       </button>
       <br>
-      <button @click="seeUser">See user info in console (dev)</button>
+      <!-- Removing testing UI
+        <button @click="seeUser">See user info in console (dev)</button> -->
     </form>
     <hr class="my-8" />
     <section class="mt-8">
