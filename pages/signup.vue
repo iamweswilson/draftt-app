@@ -59,7 +59,8 @@
 </template>
 
 <script>
-import firebase from 'firebase'
+import firebase from 'firebase/app'
+import auth from "firebase/auth";
 import Logo from '~/components/Logo.vue'
 import Error from '~/components/Error.vue'
 

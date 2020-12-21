@@ -86,7 +86,7 @@
 </template>
 
 <script>
-import firebase from 'firebase'
+import firebase from 'firebase/app'
 import { mapGetters, mapActions } from 'vuex'
 import UserDrafts from '~/components/user/UserDrafts.vue'
 
@@ -128,20 +128,16 @@ export default {
         window.file = event.target.files[0]
         reader.readAsDataURL(file)
         previewFile = file
-        console.log('in chooseFile' + previewFile)
       }
     },
     uploadFile() {
         if (previewFile !== '') {
-          console.log('in uploadFile' + previewFile)
           var user = firebase.auth().currentUser;
           // Upload to firebase
           firebase.storage().ref('users/' + user.uid + '/profilePic/' + 'avatar.jpg' ).put(file).then(res => {
-            console.log('upload worked')
 
             // Get firebase url
             var storageRef = firebase.storage().ref('users/' + user.uid + '/profilePic/' + 'avatar.jpg').getDownloadURL().then(imgURL => {
-              console.log('have download url')
               // Update profile pic
               user.updateProfile({
                 photoURL: imgURL
@@ -151,7 +147,6 @@ export default {
             console.log(error.message);
           })
         } else {
-          console.log('nope')
         }
 
     },
