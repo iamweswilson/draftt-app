@@ -56,7 +56,6 @@
           type="text"
           id="name"
           v-model="displayName"
-          @change="saveButton"
         />
       </div>
       <div class="mb-4">
@@ -102,7 +101,6 @@ export default {
       imgURL: '',
       file: '',
       show: false,
-      savedName: false
     }
   },
   computed: {
@@ -118,9 +116,6 @@ export default {
   },
   methods: {
     ...mapActions(['updateUserName', 'updateUserEmail', 'updatePhotoURL']),
-    saveButton() {
-      this.show = true
-    },
     chooseFile(event) {
       var reader = new FileReader()
       reader.onload = function(e) {
