@@ -41,27 +41,34 @@ const store = () => {
     },
 
     actions: {
-      signUp({ commit }, { email, password }) {
+      signUp({}, { email, password }) {
         return auth.createUserWithEmailAndPassword(email, password)
       },
 
-      signInWithEmail({ commit }, { email, password }) {
+      signInWithEmail({}, { email, password }) {
         return auth.signInWithEmailAndPassword(email, password)
       },
 
       signOut() {
         return auth.signOut()
       },
-      updateUserName({state, commit}, displayName) {
-        state.user.updateProfile({displayName})
+      updateUserName({state}, displayName) {
+        state.user.updateProfile({ displayName }).then(() => {
+          // Update successful.
+        }, error => {
+          alert(error)
+        })
       },
-      // updatePhotoURL({state}, photoURL) {
-      //   state.user.updateProfile({photoURL})
-      // },
+      updatePhotoURL({state}, photoURL) {
+        state.user.updateProfile({ photoURL }).then(() => {
+          // Update successful.
+        }, error => {
+          alert(error)
+        })
+      },
       updateUserEmail({state}, email) {
         state.user.updateEmail(email).then(() => {
-        // Update successful.
-          // alert('Email changed');
+          // Update successful.
         }, error => {
           alert(error)
         })

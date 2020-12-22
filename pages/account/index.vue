@@ -56,6 +56,7 @@
           type="text"
           id="name"
           v-model="displayName"
+          @change="saveButton"
         />
       </div>
       <div class="mb-4">
@@ -99,24 +100,27 @@ export default {
       email: '',
       photoURL: '',
       imgURL: '',
-      file: ''
+      file: '',
+      show: false,
+      savedName: false
     }
   },
   computed: {
     ...mapGetters({ user: 'user'}),
-    fullFile: function () {
-      return this.file
-    }
   },
   components: {
     UserDrafts,
   },
-  created() {
+  mounted() {
     this.displayName = this.user.displayName
     this.email = this.user.email
+    this.photoURL = this.user.photoURL
   },
   methods: {
-    ...mapActions(['updateUserName', 'updateUserEmail']),
+    ...mapActions(['updateUserName', 'updateUserEmail', 'updatePhotoURL']),
+    saveButton() {
+      this.show = true
+    },
     chooseFile(event) {
       var reader = new FileReader()
       reader.onload = function(e) {
@@ -131,29 +135,39 @@ export default {
       }
     },
     uploadFile() {
-        if (previewFile !== '') {
-          var user = firebase.auth().currentUser;
-          // Upload to firebase
-          firebase.storage().ref('users/' + user.uid + '/profilePic/' + 'avatar.jpg' ).put(file).then(res => {
+      if (previewFile !== '') {
+        var user = firebase.auth().currentUser;
+        // Upload to firebase
+        firebase.storage().ref('users/' + user.uid + '/profilePic/' + 'avatar.jpg' ).put(file).then(res => {
 
-            // Get firebase url
-            var storageRef = firebase.storage().ref('users/' + user.uid + '/profilePic/' + 'avatar.jpg').getDownloadURL().then(imgURL => {
-              // Update profile pic
-              user.updateProfile({
-                photoURL: imgURL
-              })
-            })
-          }).catch(error => {
-            console.log(error.message);
+          // Get firebase url
+          var storageRef = firebase.storage().ref('users/' + user.uid + '/profilePic/' + 'avatar.jpg').getDownloadURL().then(response => {
+            this.photoURL = response
+            console.log(this.photoURL)
+          }).then(() => {
+            // Wait before updating profile pic to get url
+            setTimeout(this.setProfilePic, 1000)
           })
-        } else {
-        }
-
+        })
+      }
+    },
+    setProfilePic() {
+      // Update profile pic
+      this.updatePhotoURL(this.photoURL)
+      // Send to refresh function
+      setTimeout(this.finishEdit, 1000)
     },
     saveProfile() {
-      this.updateUserName(this.displayName)
-      this.updateUserEmail(this.email)
+      // Upload preview file
       this.uploadFile()
+      // Update profile name
+      this.updateUserName(this.displayName)
+      // Update email
+      this.updateUserEmail(this.email)
+    },
+    finishEdit() {
+      // Refresh page if photo is replaced
+      this.$router.go(0)
     },
     seeUser () {
       var user = firebase.auth().currentUser;
