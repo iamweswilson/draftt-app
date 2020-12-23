@@ -20,7 +20,7 @@
           </span>
           <!-- Hidden img for preview -->
           <img
-            class="h-full rounded-full object-cover absolute z-0"
+            class="h-full min-w-full rounded-full object-cover absolute z-0"
             id="preview"
           >
             <!-- Show if user has profile img -->
@@ -71,6 +71,8 @@
       </div>
       <button
         class="inline-block text-md text-white bg-blue-600 hover:bg-blue-800 mt-6 px-5 py-2 rounded-full"
+        :class="{bg: wait}"
+        :disabled="wait"
       >
         Save Changes
       </button>
@@ -101,6 +103,7 @@ export default {
       imgURL: '',
       file: '',
       show: false,
+      wait: false
     }
   },
   computed: {
@@ -141,28 +144,29 @@ export default {
             console.log(this.photoURL)
           }).then(() => {
             // Wait before updating profile pic to get url
-            setTimeout(this.setProfilePic, 1000)
+            setTimeout(this.updatePhotoURL(this.photoURL), 500)
           })
         })
       }
     },
-    setProfilePic() {
-      // Update profile pic
-      this.updatePhotoURL(this.photoURL)
-      // Send to refresh function
-      setTimeout(this.finishEdit, 1000)
-    },
     saveProfile() {
+      this.startLoading()
       // Upload preview file
       this.uploadFile()
       // Update profile name
       this.updateUserName(this.displayName)
       // Update email
       this.updateUserEmail(this.email)
+      // Send to refresh function
+      setTimeout(this.finishEdit, 5000)
     },
     finishEdit() {
       // Refresh page if photo is replaced
       this.$router.go(0)
+    },
+    startLoading() {
+      this.$nuxt.$loading.start()
+      this.wait = true
     },
     seeUser () {
       var user = firebase.auth().currentUser;
