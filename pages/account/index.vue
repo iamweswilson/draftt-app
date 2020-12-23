@@ -70,8 +70,8 @@
         />
       </div>
       <button
+        :class="{disabled: wait}"
         class="inline-block text-md text-white bg-blue-600 hover:bg-blue-800 mt-6 px-5 py-2 rounded-full"
-        :class="{bg: wait}"
         :disabled="wait"
       >
         Save Changes
@@ -199,5 +199,9 @@ export default {
       border-color: #2c5282;
     }
   }
+}
+.disabled {
+  background: #ccc;
+  cursor: default;
 }
 </style>
