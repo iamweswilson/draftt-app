@@ -37,6 +37,9 @@ const store = () => {
     mutations: {
       setUser(state, payload) {
         state.user = payload
+      },
+      profilePic(state, payload) {
+        state.user.photoURL = payload
       }
     },
 

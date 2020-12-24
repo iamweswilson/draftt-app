@@ -77,8 +77,8 @@
         Save Changes
       </button>
       <br>
-      <!-- Removing testing UI
-        <button @click="seeUser">See user info in console (dev)</button> -->
+        <!-- Removing testing UI -->
+        <!-- <button @click="seeUser">See user info in console (dev)</button> -->
     </form>
     <hr class="my-8" />
     <section class="mt-8">
@@ -147,8 +147,7 @@ export default {
         this.photoURL = downloadURL
         // Updating profile pic
         this.updatePhotoURL(this.photoURL)
-        console.log('uploadFile finished')
-
+        this.$store.commit('profilePic',this.photoURL);
       }
     },
     async saveProfile() {
