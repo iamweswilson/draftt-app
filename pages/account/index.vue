@@ -147,7 +147,12 @@ export default {
         this.photoURL = downloadURL
         // Updating profile pic
         this.updatePhotoURL(this.photoURL)
-        this.$store.commit('profilePic',this.photoURL);
+
+        // Sending to store
+        this.$store.dispatch('profilePic', this.photoURL)
+
+        // Set previewfile to empty
+        previewFile = ''
       }
     },
     async saveProfile() {

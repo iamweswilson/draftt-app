@@ -38,9 +38,6 @@ const store = () => {
       setUser(state, payload) {
         state.user = payload
       },
-      profilePic(state, payload) {
-        state.user.photoURL = payload
-      }
     },
 
     actions: {
@@ -68,6 +65,9 @@ const store = () => {
         }, error => {
           alert(error)
         })
+      },
+      profilePic({state}, payload) {
+        state.user.photoURL = payload
       },
       updateUserEmail({state}, email) {
         state.user.updateEmail(email).then(() => {
