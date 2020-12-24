@@ -132,41 +132,43 @@ export default {
         previewFile = file
       }
     },
-    uploadFile() {
+    async uploadFile() {
       if (previewFile !== '') {
         var user = firebase.auth().currentUser;
-        // Upload to firebase
-        firebase.storage().ref('users/' + user.uid + '/profilePic/' + 'avatar.jpg' ).put(file).then(res => {
+        // Set firebase placement
+        var uploadSpot = firebase.storage().ref('users/' + user.uid + '/profilePic/' + 'avatar.jpg' )
 
-          // Get firebase url
-          var storageRef = firebase.storage().ref('users/' + user.uid + '/profilePic/' + 'avatar.jpg').getDownloadURL().then(response => {
-            this.photoURL = response
-            console.log(this.photoURL)
-          }).then(() => {
-            // Wait before updating profile pic to get url
-            setTimeout(this.updatePhotoURL(this.photoURL), 500)
-          })
-        })
+        // Upload firebase
+        var uploadPic = await uploadSpot.put(file)
+
+        // Get back firebase url
+        var downloadURL = await uploadPic.ref.getDownloadURL()
+
+        this.photoURL = downloadURL
+        // Updating profile pic
+        this.updatePhotoURL(this.photoURL)
+        console.log('uploadFile finished')
+
       }
     },
-    saveProfile() {
+    async saveProfile() {
       this.startLoading()
       // Upload preview file
-      this.uploadFile()
+      await this.uploadFile()
       // Update profile name
       this.updateUserName(this.displayName)
       // Update email
       this.updateUserEmail(this.email)
       // Send to refresh function
-      setTimeout(this.finishEdit, 5000)
-    },
-    finishEdit() {
-      // Refresh page if photo is replaced
-      this.$router.go(0)
+      this.finishEdit()
     },
     startLoading() {
       this.$nuxt.$loading.start()
       this.wait = true
+    },
+    finishEdit() {
+      this.$nuxt.$loading.finish()
+      this.$router.go(0)
     },
     seeUser () {
       var user = firebase.auth().currentUser;
