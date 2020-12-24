@@ -168,7 +168,8 @@ export default {
     },
     finishEdit() {
       this.$nuxt.$loading.finish()
-      this.$router.go(0)
+      this.wait = false
+      // setTimeout(this.$router.go(0), 500)
     },
     seeUser () {
       var user = firebase.auth().currentUser;
