@@ -20,6 +20,7 @@ const store = () => {
   return new Vuex.Store({
     state: {
       user: '',
+      profilePhotoURL: null
     },
 
     plugins: [easyFirestore],
@@ -32,11 +33,15 @@ const store = () => {
       isAuthenticated(state) {
         return !!state.user
       }
+      
     },
 
     mutations: {
       setUser(state, payload) {
         state.user = payload
+      },
+      profilePic(state, photoURL) {
+        state.profilePhotoURL = photoURL
       },
     },
 
@@ -59,15 +64,13 @@ const store = () => {
           alert(error)
         })
       },
-      updatePhotoURL({state}, photoURL) {
+      updatePhotoURL({state, commit}, photoURL) {
         state.user.updateProfile({ photoURL }).then(() => {
           // Update successful.
+          commit('profilePic', photoURL)
         }, error => {
           alert(error)
         })
-      },
-      profilePic({state}, payload) {
-        state.user.photoURL = payload
       },
       updateUserEmail({state}, email) {
         state.user.updateEmail(email).then(() => {

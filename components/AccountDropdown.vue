@@ -7,7 +7,7 @@
         type="button"
         @click.prevent="toggleDropdown"
       >
-        <img :src="user.photoURL" class="w-full h-full rounded-full object-cover">
+        <img :src="$store.state.profilePhotoURL" class="w-full h-full rounded-full object-cover">
       </button>
       <button v-else-if="user.displayName"
         class="text-white uppercase text-sm p-3 ring-4 rounded-full outline-none focus:outline-none bg-blue-600 w-8 h-8 flex items-center justify-center"
