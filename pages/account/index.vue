@@ -156,6 +156,7 @@ export default {
       }
     },
     async saveProfile() {
+      // Start loader and deactivate button
       this.startLoading()
       // Upload preview file
       await this.uploadFile()
@@ -163,7 +164,7 @@ export default {
       this.updateUserName(this.displayName)
       // Update email
       this.updateUserEmail(this.email)
-      // Send to refresh function
+      // Stop load and activate button
       this.finishEdit()
     },
     startLoading() {
@@ -171,9 +172,10 @@ export default {
       this.wait = true
     },
     finishEdit() {
-      this.$nuxt.$loading.finish()
-      this.wait = false
-      // setTimeout(this.$router.go(0), 500)
+      setTimeout(() => {
+        this.$nuxt.$loading.finish()
+        this.wait = false
+      }, 1000)
     },
     seeUser () {
       var user = firebase.auth().currentUser;
