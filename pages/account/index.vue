@@ -149,7 +149,7 @@ export default {
         this.updatePhotoURL(this.photoURL)
 
         // Sending to store
-        this.$store.dispatch('profilePic', this.photoURL)
+        // this.$store.dispatch('profilePic', this.photoURL)
 
         // Set previewfile to empty
         previewFile = ''
