@@ -4,17 +4,17 @@ import * as firebase from 'firebase/app'
 import 'firebase/auth'
 import { auth } from '~/plugins/firebase.js'
 import 'firebase/storage'
-import VuexEasyFirestore from 'vuex-easy-firestore'
+// import VuexEasyFirestore from 'vuex-easy-firestore'
 Vue.use(Vuex)
 
-import myModule from './modules/myModule.js'
+// import myModule from './modules/myModule.js'
 
-const easyFirestore = VuexEasyFirestore(
-  [myModule], {
-    logging: true,
-    FirebaseDependency: firebase,
-  }
-)
+// const easyFirestore = VuexEasyFirestore(
+//   [myModule], {
+//     logging: true,
+//     FirebaseDependency: firebase,
+//   }
+// )
 
 const store = () => {
   return new Vuex.Store({
@@ -22,7 +22,7 @@ const store = () => {
       user: '',
     },
 
-    plugins: [easyFirestore],
+    // plugins: [easyFirestore],
 
     getters: {
       user(state) {
