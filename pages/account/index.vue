@@ -77,7 +77,6 @@
         Save Changes
       </button>
       <br>
-      <button @click="test">What</button>
         <!-- Removing testing UI -->
         <!-- <button @click="seeUser">See user info in console (dev)</button> -->
     </form>
@@ -120,9 +119,6 @@ export default {
   },
   methods: {
     ...mapActions(['updateUserName', 'updateUserEmail', 'updatePhotoURL']),
-    test() {
-      console.log(this.$store.state.profilePhotoURL)
-    },
     chooseFile(event) {
       var reader = new FileReader()
       reader.onload = function(e) {
@@ -153,7 +149,7 @@ export default {
         this.updatePhotoURL(this.photoURL)
 
         // Sending to store
-        // this.$store.dispatch('profilePic', this.photoURL)
+        this.$store.dispatch('profilePic', this.photoURL)
 
         // Set previewfile to empty
         previewFile = ''
