@@ -55,6 +55,9 @@ export default {
       // Firestore Settings - currently only works in SPA mode
     }
   },
+  generate: {
+    fallback: true
+  },
   /*
   ** Routers
   */
